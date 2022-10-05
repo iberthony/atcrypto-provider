@@ -10,8 +10,14 @@
   "module": "./dist/atcrypto-provider.js",
   "exports": {
     ".": {
-      "import": "./dist/atcrypto-provider.js",
-      "require": "./dist/atcrypto-provider.umd.cjs"
+      "import": {
+        "types": "./dist/idex.d.ts",
+        "default": "./dist/atcrypto-provider.js"
+      },
+      "require": {
+        "types": "./dist/idex.d.ts",
+        "default": "./dist/atcrypto-provider.umd.cjs"
+      }
     }
   },
   "scripts": {

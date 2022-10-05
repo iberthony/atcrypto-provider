@@ -20,7 +20,7 @@ export default defineConfig({
         lib: {
             entry: 'src/index.ts',
             name: 'atcrypto-provider',
-
+            fileName: 'atcrypto-provider'
         },
     },
 })
