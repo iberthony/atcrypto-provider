@@ -6,6 +6,20 @@ const username = ref("")
 const addresses = ref<any>([])
 const profile = ref<any>({})
 let provider: AtcryptoProvider
+let paginator:Paginator=null
+
+const getNfts=()=>{
+  provider.getNfts("0x2670564fba3ab966da74b08abecb84eae6ecaab3","eth",20).then(pag=>{
+    paginator=pag
+    console.log(pag)
+  })
+}
+const getNextPage=()=>{
+  paginator.nextPage().then((result:Array<any>)=>{
+    console.log(result)
+  })
+}
+
 
 const getUserData = () => {
   provider.getProfile(username.value).then((response: any) => {
@@ -15,6 +29,7 @@ const getUserData = () => {
   provider.getAddresses(username.value).then((response: any) => {
     addresses.value = response as Array<any>
   })
+
 }
 onBeforeMount(() => {
   AtcryptoProvider.init({}).then(async () => {
@@ -71,6 +86,8 @@ onBeforeMount(() => {
         </div>
       </div>
     </div>
+    <button @click="getNfts">Get Profile</button>
+    <button @click="getNextPage">Next Page</button>
   </header>
 </template>
 

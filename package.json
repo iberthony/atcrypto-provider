@@ -1,6 +1,6 @@
 {
   "name": "atcrypto-provider",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "type": "module",
   "files": [
@@ -8,16 +8,11 @@
   ],
   "main": "./dist/atcrypto-provider.umd.cjs",
   "module": "./dist/atcrypto-provider.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/idex.d.ts",
-        "default": "./dist/atcrypto-provider.js"
-      },
-      "require": {
-        "types": "./dist/idex.d.ts",
-        "default": "./dist/atcrypto-provider.umd.cjs"
-      }
+      "import": "./dist/atcrypto-provider.js",
+      "require": "./dist/atcrypto-provider.umd.cjs"
     }
   },
   "scripts": {
@@ -29,11 +24,12 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.6.4",
-    "vite": "^3.1.4"
+    "vite": "^3.1.4",
+    "vite-plugin-dts": "^1.6.4"
   },
   "dependencies": {
     "axios": "^1.0.0",
-    "vite-plugin-dts": "^1.6.4",
+
     "web3": "^1.8.0"
   }
 }
