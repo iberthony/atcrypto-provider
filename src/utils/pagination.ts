@@ -8,7 +8,7 @@ export class Paginator{
     firstPageRead:boolean
     dataParser:Function
     private readonly onNextPage:Function
-    private readonly hasNextPage:Function
+    readonly _hasNextPage:Function
     constructor(request:AtcryptoRequest,response:any,onNextPage:Function,dataParser:Function,hasNextPage:Function) {
         this.request=request
         this.response=response
@@ -16,13 +16,13 @@ export class Paginator{
         this.firstPageRead=false
         this.onNextPage=onNextPage
         this.dataParser=dataParser
-        this.hasNextPage=hasNextPage
+        this._hasNextPage=hasNextPage
     }
 
 
 
     async nextPage(){
-        if(!this.hasNextPage(this.response)){
+        if(!this.hasNextPage()){
             return []
         }
         const request=await this.onNextPage(this.response)
@@ -30,6 +30,9 @@ export class Paginator{
         this.response=response
         this.data=this.dataParser(response)
         return this.data
+    }
+    hasNextPage(){
+        return this._hasNextPage(this.response)
     }
 
 }

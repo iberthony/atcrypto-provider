@@ -1,39 +1,41 @@
 <script setup lang="ts">
 import {AtcryptoProvider} from "atcrypto-provider"
 import {ref, onBeforeMount} from "vue";
+import Profile from "@/components/Profile.vue";
 
-const username = ref("")
-const addresses = ref<any>([])
-const profile = ref<any>({})
-let provider: AtcryptoProvider
-let paginator:Paginator=null
-
-const getNfts=()=>{
-  provider.getNfts("0x2670564fba3ab966da74b08abecb84eae6ecaab3","eth",20).then(pag=>{
-    paginator=pag
-    console.log(pag)
-  })
-}
-const getNextPage=()=>{
-  paginator.nextPage().then((result:Array<any>)=>{
-    console.log(result)
-  })
-}
+const providerLoaded=ref(false)
 
 
-const getUserData = () => {
-  provider.getProfile(username.value).then((response: any) => {
-    console.log(response)
-    profile.value = response
-  })
-  provider.getAddresses(username.value).then((response: any) => {
-    addresses.value = response as Array<any>
-  })
+//
+// let paginator:Paginator=null
+//
+// const getNfts=()=>{
+//   provider.getNfts("0x2670564fba3ab966da74b08abecb84eae6ecaab3","eth",20).then(pag=>{
+//     paginator=pag
+//     console.log(pag)
+//   })
+// }
+// const getNextPage=()=>{
+//   paginator.nextPage().then((result:Array<any>)=>{
+//     console.log(result)
+//   })
+// }
 
-}
+
+// const getUserData = () => {
+//   provider.getProfile(username.value).then((response: any) => {
+//     console.log(response)
+//     profile.value = response
+//   })
+//   provider.getAddresses(username.value).then((response: any) => {
+//     addresses.value = response as Array<any>
+//   })
+//
+// }
 onBeforeMount(() => {
-  AtcryptoProvider.init({}).then(async () => {
-    provider = new AtcryptoProvider()
+  AtcryptoProvider.init().then(async () => {
+    providerLoaded.value=true
+    // provider = new AtcryptoProvider()
     // const username="kylezorfi2"
     // const addresses=await provider.getAddresses(username)
     // console.log(addresses)
@@ -44,51 +46,20 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <header>
-    <div>
-      <input class="tw-bg-red" v-model="username"/>
-      <button @click="getUserData">Get Profile</button>
+  <div>
+    <div v-if="providerLoaded">
+      <Profile />
     </div>
-    <div v-if="profile">
-      <div>
-        Username:{{ profile.name }}
-      </div>
-      <div>
-        Email:{{ profile.email }}
-      </div>
-      <div>
-        Bio:{{ profile.bio }}
-      </div>
-      <div>
-        Cover:{{ profile.cover }}
-      </div>
-      <div>
-        Location:{{ profile.location }}
-      </div>
-      <div>
-        Website:{{ profile.website }}
-      </div>
-      <div>
-        <div v-for="social in profile.socials" :key="social.type">
-          <span>{{ social.type }} :  {{ social.url }}</span>
-        </div>
-      </div>
-      <div style="width: 50px">
-        Avatar:<img style="width: 100%" :src="profile.avatar">
-      </div>
-    </div>
-    <div v-if="addresses">
-      <div v-for="address in addresses">
-        <div style="display: flex">
-          <img width="40" :src="address.icon">
-          <span style="padding-left: 20px;padding-right: 20px">{{address.name}}</span>
-          <div>{{address.address}}</div>
-        </div>
-      </div>
-    </div>
-    <button @click="getNfts">Get Profile</button>
-    <button @click="getNextPage">Next Page</button>
-  </header>
+<!--    <div v-if="addresses">-->
+<!--      <div v-for="address in addresses">-->
+<!--        <div style="display: flex">-->
+<!--          <img width="40" :src="address.icon">-->
+<!--          <span style="padding-left: 20px;padding-right: 20px">{{address.name}}</span>-->
+<!--          <div>{{address.address}}</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
 </template>
 
 <style scoped>
